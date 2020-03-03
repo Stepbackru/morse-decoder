@@ -35,10 +35,27 @@ const MORSE_TABLE = {
     '---..':  '8',
     '----.':  '9',
     '-----':  '0',
+    'space': ' ',
 };
-
 function decode(expr) {
-    // write your solution here
+    let chars = [];
+    for(let i = 0; i < expr.length; i+=10) {
+        chars.push(expr.slice(i, i + 10));
+    }
+    function parseMorse(arr) {
+        return arr.map((str) => {
+        if (str === '**********') return 'space';
+        str = str.toString();
+        let newStr = "";
+        do {
+          newStr += str.slice(0, 2) === '11' ? '-' : str.slice(0, 2) == '10' ? '.' : '';
+          str = str.slice(2);
+          if (!str.length) break;
+        } while (true);
+        return newStr;
+      });
+    }
+    return parseMorse(chars).map(el => MORSE_TABLE[el]).join('')
 }
 
 module.exports = {
